@@ -2,6 +2,7 @@
   (:require [com.stuartsierra.component :as component]
             [ragtime.core :as core]
             [ragtime.jdbc :as jdbc]
+            [ragtime.repl :as repl]
             [ragtime.strategy :as strategy]))
 
 (defrecord Ragtime [resource-path]
@@ -19,8 +20,10 @@
 (defn migrate
   [{:keys [datastore migrations strategy]
     :or {strategy strategy/raise-error}}]
-  (core/migrate-all datastore {} migrations strategy))
+  (let [migrations (map #(repl/wrap-reporting % repl/default-reporter) migrations)]
+    (core/migrate-all datastore {} migrations strategy)))
 
 (defn rollback
   [{:keys [datastore migrations]}]
-  (core/rollback-last datastore (core/into-index migrations) 1))
+  (let [migrations (map #(repl/wrap-reporting % repl/default-reporter) migrations)]
+    (core/rollback-last datastore (core/into-index migrations) 1)))

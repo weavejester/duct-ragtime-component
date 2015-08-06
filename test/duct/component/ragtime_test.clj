@@ -32,7 +32,7 @@
           cpnt (-> (ragtime {:resource-path "migrations"})
                    (assoc-in [:db :spec] spec)
                    (component/start))]
-      (migrate cpnt)
+      (is (= (with-out-str (migrate cpnt)) "Applying 001-test\n"))
       (is (= (table-names spec) #{"RAGTIME_MIGRATIONS" "FOO"}))
-      (rollback cpnt)
+      (is (= (with-out-str (rollback cpnt)) "Rolling back 001-test\n"))
       (is (= (table-names spec) #{"RAGTIME_MIGRATIONS"})))))
