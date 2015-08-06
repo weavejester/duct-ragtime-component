@@ -7,4 +7,5 @@
                  [com.stuartsierra/component "0.2.3"]
                  [ragtime "0.5.0"]]
   :profiles
-  {:dev {:dependencies [[com.h2database/h2 "1.3.160"]]}})
+  {:dev {:dependencies [[com.h2database/h2 "1.3.160"]
+                        [org.clojure/java.jdbc "0.3.7"]]}})
