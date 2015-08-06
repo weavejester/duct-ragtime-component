@@ -21,7 +21,7 @@
           cpnt (-> (ragtime {:resource-path "migrations"})
                    (assoc-in [:db :spec] spec)
                    (component/start))]
-      (is (= (count (:migrations cpnt)) 1))
+      (is (= (count (:migrations cpnt)) 2))
       (is (= (-> cpnt :migrations first :up)
              ["CREATE TABLE foo (id int);\n"]))
       (is (= (-> cpnt :migrations first :down)
@@ -32,7 +32,14 @@
           cpnt (-> (ragtime {:resource-path "migrations"})
                    (assoc-in [:db :spec] spec)
                    (component/start))]
-      (is (= (with-out-str (migrate cpnt)) "Applying 001-test\n"))
+      (is (= (with-out-str (migrate cpnt))
+             "Applying 001-test\nApplying 002-test\n"))
+      (is (= (table-names spec) #{"RAGTIME_MIGRATIONS" "FOO" "BAR"}))
+      (is (= (with-out-str (rollback cpnt)) "Rolling back 002-test\n"))
       (is (= (table-names spec) #{"RAGTIME_MIGRATIONS" "FOO"}))
-      (is (= (with-out-str (rollback cpnt)) "Rolling back 001-test\n"))
+      (is (= (with-out-str (migrate cpnt)) "Applying 002-test\n"))
+      (is (= (table-names spec) #{"RAGTIME_MIGRATIONS" "FOO" "BAR"}))
+      (is (= (with-out-str (rollback cpnt 2))
+             "Rolling back 002-test\nRolling back 001-test\n"))
       (is (= (table-names spec) #{"RAGTIME_MIGRATIONS"})))))
+

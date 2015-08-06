@@ -25,6 +25,12 @@
   (let [migrations (map #(repl/wrap-reporting % reporter) migrations)]
     (core/migrate-all datastore {} migrations strategy)))
 
-(defn rollback [{:keys [datastore migrations reporter]}]
-  (let [migrations (map #(repl/wrap-reporting % reporter) migrations)]
-    (core/rollback-last datastore (core/into-index migrations) 1)))
+(defn rollback
+  ([component]
+   (rollback component 1))
+  ([{:keys [datastore migrations reporter]} amount-or-id]
+   (let [migrations (map #(repl/wrap-reporting % reporter) migrations)
+         index      (core/into-index migrations)]
+     (if (integer? amount-or-id)
+       (core/rollback-last datastore index amount-or-id)
+       (core/rollback-to datastore index amount-or-id)))))
