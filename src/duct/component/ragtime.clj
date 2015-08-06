@@ -1,6 +1,13 @@
-(ns duct.component.ragtime)
+(ns duct.component.ragtime
+  (:require [com.stuartsierra.component :as component]
+            [ragtime.core :as ragtime]))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defrecord Ragtime []
+  component/LifeCycle
+  (start [component]
+    component)
+  (stop [component]
+    component))
+
+(defn ragtime [options]
+  (map->Ragtime options))
