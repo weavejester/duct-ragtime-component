@@ -1,13 +1,16 @@
 (ns duct.component.ragtime
   (:require [com.stuartsierra.component :as component]
-            [ragtime.core :as ragtime]))
+            [ragtime.core :as core]
+            [ragtime.jdbc :as jdbc]))
 
-(defrecord Ragtime []
-  component/LifeCycle
+(defrecord Ragtime [resource-path]
+  component/Lifecycle
   (start [component]
-    component)
+    (assoc component
+           :datastore  (-> component :db :spec jdbc/sql-database)
+           :migrations (jdbc/load-resources resource-path)))
   (stop [component]
-    component))
+    (dissoc component :datastore :migrations)))
 
 (defn ragtime [options]
   (map->Ragtime options))
