@@ -7,9 +7,12 @@
 (defn table-names [db-spec]
   (set (sql/query db-spec ["SHOW TABLES"] :row-fn :table_name)))
 
+(defn new-connection []
+  (sql/get-connection {:connection-uri "jdbc:h2:mem:"}))
+
 (deftest test-ragtime
   (testing "satisfies component/Lifecycle"
-    (let [spec {:connection-uri "jdbc:h2:mem:test1;DB_CLOSE_DELAY=-1"}
+    (let [spec {:connection (new-connection)}
           cpnt (-> (ragtime {:resource-path "migrations"})
                    (assoc-in [:db :spec] spec))]
       (is (satisfies? component/Lifecycle cpnt))
@@ -17,7 +20,7 @@
       (is (satisfies? component/Lifecycle (component/stop (component/start cpnt))))))
 
   (testing "loads migrations from resource"
-    (let [spec {:connection-uri "jdbc:h2:mem:test2;DB_CLOSE_DELAY=-1"}
+    (let [spec {:connection (new-connection)}
           cpnt (-> (ragtime {:resource-path "migrations"})
                    (assoc-in [:db :spec] spec)
                    (component/start))]
@@ -28,7 +31,7 @@
              ["DROP TABLE foo;\n"]))))
 
   (testing "migrate and rollback"
-    (let [spec {:connection-uri "jdbc:h2:mem:test3;DB_CLOSE_DELAY=-1"}
+    (let [spec {:connection (new-connection)}
           cpnt (-> (ragtime {:resource-path "migrations"})
                    (assoc-in [:db :spec] spec)
                    (component/start))]
