@@ -1,5 +1,7 @@
 # Duct-Ragtime-Component
 
+[![Build Status](https://travis-ci.org/weavejester/duct-ragtime-component.svg?branch=master)](https://travis-ci.org/weavejester/duct-ragtime-component)
+
 A [component][] for the [Ragtime][] migration library, designed to be
 used in the [Duct][] framework (but can be used in any component-based
 system).
