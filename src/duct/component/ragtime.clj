@@ -6,12 +6,17 @@
             [ragtime.repl :as repl]
             [ragtime.strategy :as strategy]))
 
+(defn reload
+  "Reload the migrations of a Ragtime component and return a new component."
+  [{:keys [resource-path] :as component}]
+  (assoc component :migrations (jdbc/load-resources resource-path)))
+
 (defrecord Ragtime [resource-path]
   component/Lifecycle
   (start [component]
-    (assoc component
-           :datastore  (-> component :db :spec jdbc/sql-database)
-           :migrations (jdbc/load-resources resource-path)))
+    (-> component
+        (assoc :datastore (-> component :db :spec jdbc/sql-database))
+        (reload)))
   (stop [component]
     (dissoc component :datastore :migrations)))
 

@@ -44,5 +44,11 @@
       (is (= (table-names spec) #{"RAGTIME_MIGRATIONS" "FOO" "BAR"}))
       (is (= (with-out-str (rollback cpnt 2))
              "Rolling back 002-test\nRolling back 001-test\n"))
-      (is (= (table-names spec) #{"RAGTIME_MIGRATIONS"})))))
+      (is (= (table-names spec) #{"RAGTIME_MIGRATIONS"}))))
+
+  (testing "reload"
+    (let [cpnt (ragtime {:resource-path "migrations"})]
+      (is (nil? (:migrations cpnt)))
+      (is (some? (-> cpnt reload :migrations)))
+      (is (= (-> cpnt reload :migrations count) 2)))))
 
