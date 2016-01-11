@@ -1,4 +1,4 @@
-(defproject duct/ragtime-component "0.1.2"
+(defproject duct/ragtime-component "0.1.3"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"

@@ -14,7 +14,7 @@ system).
 
 Add the following dependency to your `project.clj`:
 
-    [duct/ragtime-component "0.1.2"]
+    [duct/ragtime-component "0.1.3"]
 
 ## Usage
 
