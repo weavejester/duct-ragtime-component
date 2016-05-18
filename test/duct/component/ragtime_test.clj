@@ -5,7 +5,7 @@
             [clojure.java.jdbc :as sql]))
 
 (defn table-names [db-spec]
-  (set (sql/query db-spec ["SHOW TABLES"] :row-fn :table_name)))
+  (set (sql/query db-spec ["SHOW TABLES"] {:row-fn :table_name})))
 
 (defn new-connection []
   (sql/get-connection {:connection-uri "jdbc:h2:mem:"}))

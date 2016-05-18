@@ -4,8 +4,8 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [com.stuartsierra/component "0.3.0"]
-                 [ragtime "0.5.2"]]
+                 [com.stuartsierra/component "0.3.1"]
+                 [ragtime "0.6.0"]]
   :profiles
-  {:dev {:dependencies [[com.h2database/h2 "1.3.160"]
-                        [org.clojure/java.jdbc "0.3.7"]]}})
+  {:dev {:dependencies [[com.h2database/h2 "1.4.191"]
+                        [org.clojure/java.jdbc "0.6.1"]]}})
