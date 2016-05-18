@@ -1,4 +1,4 @@
-(defproject duct/ragtime-component "0.1.3"
+(defproject duct/ragtime-component "0.1.4"
   :description "A component for managing migrations with Ragtime"
   :url "https://github.com/weavejester/duct-ragtime-component"
   :license {:name "Eclipse Public License"
