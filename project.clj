@@ -1,6 +1,6 @@
 (defproject duct/ragtime-component "0.1.3"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "A component for managing migrations with Ragtime"
+  :url "https://github.com/weavejester/duct-ragtime-component"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
